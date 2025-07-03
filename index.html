@@ -222,122 +222,39 @@
             100% { transform: translateY(0px) scale(1.05); } /* Return to start */
         }
 
-        /* Clients Horizontal List (Static, no animation) */
-        .clients-horizontal-list {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem; /* Spacing between logos */
+        /* Clients Marquee Animation */
+        .clients-marquee {
+            overflow: hidden;
+            white-space: nowrap;
             padding: 2rem 0;
             background-color: transparent; /* Transparent background */
             border-top: none; /* No top border */
             border-bottom: none; /* No bottom border */
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
 
-        .clients-horizontal-list img {
+        .clients-marquee-content {
+            display: inline-block; /* Essential for marquee effect */
+            animation: marquee 20s linear infinite; /* Adjusted duration for speed with fewer logos */
+            padding-right: 2rem; /* Spacing between end and start of loop */
+        }
+
+        .clients-marquee-content img {
             width: 200px; /* Set specific width */
             height: 80px; /* Set specific height */
             object-fit: contain; /* Ensure logos fit within dimensions without cropping */
             filter: none; /* Ensure original colors */
             opacity: 1; /* Ensure full opacity */
             transition: transform 0.3s ease; /* Smooth hover transition */
+            margin: 0 3rem; /* Spacing between logos */
         }
 
-        .clients-horizontal-list img:hover {
+        .clients-marquee-content img:hover {
             transform: scale(1.1); /* Slight zoom on hover */
         }
 
-        /* Portfolio Project Specifics */
-        .portfolio-grid-container {
-            display: grid;
-            grid-template-columns: 1fr; /* Single column on small screens */
-            gap: 2.5rem; /* Gap between cards */
-            margin-top: 2rem;
-        }
-
-        @media (min-width: 768px) { /* Medium screens and up */
-            .portfolio-grid-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            }
-        }
-
-        @media (min-width: 1024px) { /* Large screens and up */
-            .portfolio-grid-container {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            }
-        }
-
-        /* Click-to-reveal and slider container for video projects */
-        .video-projects-wrapper {
-            position: relative;
-            display: flex;
-            flex-direction: column; /* Stack initially */
-            align-items: center;
-            gap: 2.5rem; /* Gap between stacked projects */
-            width: 100%;
-            overflow: hidden; /* Hide overflow for sliding effect */
-        }
-
-        .video-projects-slider {
-            display: flex; /* Make children align horizontally */
-            gap: 2.5rem;
-            transition: transform 0.5s ease-in-out; /* Smooth slide transition */
-            width: 100%; /* Full width of its container */
-            padding-bottom: 1rem; /* Space for scrollbar if needed */
-            overflow-x: auto; /* Enable horizontal scrolling */
-            scroll-snap-type: x mandatory; /* Snap to cards */
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-        }
-
-        .video-projects-slider .project-card {
-            flex: 0 0 100%; /* Each card takes full width of the slider viewport */
-            scroll-snap-align: start; /* Snap to the start of each card */
-            max-width: 100%; /* Ensure cards don't exceed wrapper width */
-        }
-
-        @media (min-width: 768px) {
-            .video-projects-slider .project-card {
-                flex: 0 0 calc(50% - 1.25rem); /* 2 cards side-by-side with gap */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .video-projects-slider .project-card {
-                flex: 0 0 calc(33.333% - 1.666rem); /* 3 cards side-by-side with gap */
-            }
-        }
-
-        .project-hidden {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .project-visible {
-            display: block; /* Or flex, grid depending on inner content */
-            opacity: 1;
-        }
-
-        /* Slider navigation buttons */
-        .slider-nav-button {
-            background-color: rgba(139, 92, 246, 0.6); /* Purple button */
-            color: white;
-            padding: 0.75rem 1.25rem;
-            border-radius: 9999px;
-            font-weight: bold;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            cursor: pointer;
-            border: none;
-            margin: 0 0.5rem;
-        }
-        .slider-nav-button:hover {
-            background-color: rgba(139, 92, 246, 0.8);
-            transform: scale(1.05);
-        }
-        .slider-nav-button:disabled {
-            background-color: rgba(139, 92, 246, 0.3);
-            cursor: not-allowed;
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Half the content width to loop seamlessly */
         }
     </style>
 </head>
@@ -373,13 +290,13 @@
                 <h2 class="text-5xl font-bold text-center text-white mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
 
                 <h3 class="text-3xl font-semibold text-center text-gray-400 mb-8 mt-12">Trusted By</h3>
-                <!-- Static Horizontal List (no animation, no duplication) -->
-                <div class="clients-horizontal-list">
-                    <img src="images/empa.png" alt="EMPA Company Logo">
-                    <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
-                    <img src="images/lakipay.png" alt="LakiPay Company Logo">
+                <div class="clients-marquee">
+                    <div class="clients-marquee-content">
+                        <img src="images/empa.png" alt="EMPA Company Logo">
+                        <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
+                        <img src="images/lakipay.png" alt="LakiPay Company Logo">
+                    </div>
                 </div>
-                <!-- End Trusted By -->
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
                     <div class="project-card">
@@ -412,7 +329,7 @@
                         </div>
                         <div class="p-7">
                             <h3 class="text-2xl font-semibold text-white mb-2">Videography Certification</h3>
-                            <p class="text-purple-300 text-sm mb-3">Issued by:TOM Video&Photography Training Center</p>
+                            <p class="text-purple-300 text-sm mb-3">Issued by: [Institution Name]</p>
                             <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
                             <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.</p>
                         </div>
@@ -442,7 +359,7 @@
                     <p class="text-lg text-gray-300 mb-8 text-center">
                         Have a project in mind or just want to chat? Fill out the form below, or connect with me directly on Telegram for 24/7 availability!
                     </p>
-                    <form action="#" method="POST" class="space-y-8">
+                    <form name="contact" method="POST" data-netlify="true" action="/success.html" class="space-y-8">
                         <div>
                             <label for="name" class="block text-gray-300 text-lg font-bold mb-3">Name</label>
                             <input type="text" id="name" name="name" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="Your Name" required>
@@ -477,7 +394,6 @@
     <footer class="bg-gray-900 text-gray-500 py-10 px-6 md:px-12 text-center">
         <div class="container mx-auto">
             <p class="text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
-            <!-- Removed Telegram link from footer -->
         </div>
     </footer>
 
@@ -528,22 +444,6 @@
             markerLines.forEach(line => {
                 markerObserver.observe(line);
             });
-
-            // Portfolio Project Interaction Logic
-            const viewMoreBtn = document.getElementById('view-more-projects-btn');
-            const remainingProjectsContainer = document.getElementById('remaining-video-projects');
-
-            if (viewMoreBtn && remainingProjectsContainer) {
-                viewMoreBtn.addEventListener('click', () => {
-                    viewMoreBtn.style.display = 'none'; // Hide the button
-                    remainingProjectsContainer.classList.remove('project-hidden');
-                    remainingProjectsContainer.classList.add('project-visible');
-                    // Optional: Scroll to the newly revealed projects
-                    setTimeout(() => {
-                        remainingProjectsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                });
-            }
         });
     </script>
 
