@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniel Zekaryas | Video Editor & Storyteller</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter & Montserrat for a modern, artistic touch -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Date Stamp Font (still linked but not used for title) -->
+    <link href="https://fonts.googleapis.com/css2?family=Date+Stamp&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif; /* Default font */
+            background-color: #0A0A0A; /* Even deeper dark background */
+            color: #E6E6E6; /* Soft white text */
+            /* More dynamic, subtle background gradients for artistic vibe */
+            background-image: radial-gradient(at 5% 95%, rgba(60, 0, 80, 0.15) 0%, transparent 60%),
+                              radial-gradient(at 95% 5%, rgba(80, 0, 60, 0.15) 0%, transparent 60%),
+                              radial-gradient(at 50% 50%, rgba(30, 0, 40, 0.1) 0%, transparent 70%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        h1, h2 {
+            font-family: 'Montserrat', sans-serif; /* Headings with Montserrat for impact */
+        }
+        /* Custom class for the site title name */
+        .site-title-name {
+            font-family: 'Montserrat', sans-serif; /* Font is Montserrat */
+            font-size: 3.2rem; /* Adjusted size for this font style */
+            font-weight: 800; /* Extra bold for impact */
+            line-height: 1;
+            /* Cinematic text-shadow for white shine */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.5); /* White shine */
+            letter-spacing: 0.05em; /* Subtle letter spacing for cinematic feel */
+            animation: none; /* Ensure no animation */
+        }
+        @media (min-width: 768px) { /* Adjust for medium screens and up */
+            .site-title-name {
+                font-size: 4rem; /* Even larger on desktop */
+            }
+        }
+
+        .video-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem; /* More rounded corners for videos */
+        }
+        .video-thumbnail iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* New: Image thumbnail styling */
+        .image-thumbnail {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem; /* Consistent with video-thumbnail */
+        }
+        .image-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure image covers the area */
+        }
+
+
+        /* Glassmorphism Effect - Enhanced for more depth and glow */
+        .glass-effect {
+            background-color: rgba(68, 41, 100, 0.15); /* Lighter purple with more transparency */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle white border */
+            box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.4); /* Deeper, wider shadow */
+            backdrop-filter: blur(20px) saturate(180%); /* Increased blur and saturation for vibrancy */
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 1.5rem; /* Even more rounded corners for a softer, modern look */
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother, more complex transition */
+        }
+        /* Adjust padding for glass buttons */
+        .glass-button {
+            padding: 1rem 3rem; /* Larger buttons */
+            border-radius: 9999px; /* rounded-full */
+            font-weight: 700;
+            letter-spacing: 0.08em; /* More letter spacing */
+            text-transform: uppercase;
+            color: #E6E6E6; /* Ensure text color is consistent */
+            background-image: linear-gradient(45deg, rgba(139, 92, 246, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%); /* Subtle gradient for depth */
+        }
+        .glass-button:hover {
+            transform: translateY(-5px) scale(1.03); /* More pronounced lift and scale */
+            background-color: rgba(88, 61, 120, 0.4); /* Slightly darker on hover */
+            box-shadow: 0 20px 80px 0 rgba(0, 0, 0, 0.6); /* Even more intense shadow on hover */
+            border-color: rgba(139, 92, 246, 0.5); /* Purple border on hover */
+        }
+        .glass-nav-link {
+            padding: 0.8rem 1.8rem; /* Larger nav links */
+            border-radius: 1rem; /* More rounded corners */
+            font-weight: 600;
+            color: #E6E6E6;
+            background-image: linear-gradient(45deg, rgba(139, 92, 246, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+        }
+        .glass-nav-link:hover {
+            background-color: rgba(88, 61, 120, 0.3);
+            transform: translateY(-3px); /* More pronounced lift on hover */
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Hero Text Animation - Smoother and more impactful */
+        .fade-in-up {
+            animation: fadeInUp 1.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .delay-1 { animation-delay: 0.4s; }
+        .delay-2 { animation-delay: 0.8s; }
+        .delay-3 { animation-delay: 1.2s; }
+
+        /* Fixed header with more prominent blur */
+        header {
+            background-color: rgba(18, 18, 18, 0.6); /* Slightly more opaque */
+            backdrop-filter: blur(15px); /* Stronger blur */
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        /* Project Card Hover Effect - Enhanced for content creator vibe */
+        .project-card {
+            background-color: #1A1A1A; /* Slightly lighter card background */
+            border-radius: 1.5rem; /* More rounded */
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+        }
+        /* Combined hover effect for both video and image thumbnails */
+        .project-card:hover .video-thumbnail,
+        .project-card:hover .image-thumbnail {
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.6); /* Stronger shadow and purple glow */
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02); /* More dramatic lift and scale */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); /* Stronger shadow on card itself */
+        }
+        .project-card .p-7 {
+            background-color: #1A1A1A; /* Ensure consistent background for text area */
+            transition: background-color 0.3s ease;
+        }
+        .project-card:hover .p-7 {
+             background-color: #282828; /* Darker background on hover for text area */
+        }
+
+        /* Yellow Separation Marker Animation */
+        .marker-line {
+            width: 100%; /* Full width for the div */
+            height: 0.25rem; /* h-1 in Tailwind is 0.25rem */
+            background-color: #FACC15; /* Tailwind yellow-400 */
+            border-radius: 9999px; /* rounded-full */
+            margin-top: 1rem; /* my-4 in Tailwind is 1rem */
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; /* Smooth transition */
+        }
+        .marker-line.marker-visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        /* Form input styling */
+        .glass-input {
+            background-color: rgba(255, 255, 255, 0.08); /* Slightly visible input background */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #E6E6E6;
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #8B5CF6; /* Purple focus border */
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Section visibility */
+        .section-content {
+            display: none; /* Hidden by default */
+            padding-top: 8rem; /* Space for fixed header */
+            min-height: calc(100vh - 10rem); /* Ensure content pushes footer down */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .section-content.active {
+            display: block; /* Show active section */
+            opacity: 1;
+        }
+
+        /* About Photo Animation */
+        .float-animation {
+            animation: floatAnimation 6s ease-in-out infinite; /* Slow, smooth, infinite float */
+        }
+
+        @keyframes floatAnimation {
+            0% { transform: translateY(0px) scale(1.05); } /* Start slightly scaled for initial pop */
+            50% { transform: translateY(-15px) scale(1.05); } /* Move up */
+            100% { transform: translateY(0px) scale(1.05); } /* Return to start */
+        }
+
+        /* Clients Horizontal List (Static, no animation) */
+        .clients-horizontal-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem; /* Spacing between logos */
+            padding: 2rem 0;
+            background-color: transparent; /* Transparent background */
+            border-top: none; /* No top border */
+            border-bottom: none; /* No bottom border */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .clients-horizontal-list img {
+            width: 200px; /* Set specific width */
+            height: 80px; /* Set specific height */
+            object-fit: contain; /* Ensure logos fit within dimensions without cropping */
+            filter: none; /* Ensure original colors */
+            opacity: 1; /* Ensure full opacity */
+            transition: transform 0.3s ease; /* Smooth hover transition */
+        }
+
+        .clients-horizontal-list img:hover {
+            transform: scale(1.1); /* Slight zoom on hover */
+        }
+
+        /* Portfolio Project Specifics */
+        .portfolio-grid-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column on small screens */
+            gap: 2.5rem; /* Gap between cards */
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .portfolio-grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            }
+        }
+
+        @media (min-width: 1024px) { /* Large screens and up */
+            .portfolio-grid-container {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            }
+        }
+
+        /* Click-to-reveal and slider container for video projects */
+        .video-projects-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Stack initially */
+            align-items: center;
+            gap: 2.5rem; /* Gap between stacked projects */
+            width: 100%;
+            overflow: hidden; /* Hide overflow for sliding effect */
+        }
+
+        .video-projects-slider {
+            display: flex; /* Make children align horizontally */
+            gap: 2.5rem;
+            transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+            width: 100%; /* Full width of its container */
+            padding-bottom: 1rem; /* Space for scrollbar if needed */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            scroll-snap-type: x mandatory; /* Snap to cards */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        .video-projects-slider .project-card {
+            flex: 0 0 100%; /* Each card takes full width of the slider viewport */
+            scroll-snap-align: start; /* Snap to the start of each card */
+            max-width: 100%; /* Ensure cards don't exceed wrapper width */
+        }
+
+        @media (min-width: 768px) {
+            .video-projects-slider .project-card {
+                flex: 0 0 calc(50% - 1.25rem); /* 2 cards side-by-side with gap */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .video-projects-slider .project-card {
+                flex: 0 0 calc(33.333% - 1.666rem); /* 3 cards side-by-side with gap */
+            }
+        }
+
+        .project-hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .project-visible {
+            display: block; /* Or flex, grid depending on inner content */
+            opacity: 1;
+        }
+
+        /* Slider navigation buttons */
+        .slider-nav-button {
+            background-color: rgba(139, 92, 246, 0.6); /* Purple button */
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            border: none;
+            margin: 0 0.5rem;
+        }
+        .slider-nav-button:hover {
+            background-color: rgba(139, 92, 246, 0.8);
+            transform: scale(1.05);
+        }
+        .slider-nav-button:disabled {
+            background-color: rgba(139, 92, 246, 0.3);
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="text-white py-4 px-6 md:px-12 fixed top-0 left-0 w-full z-20">
+        <nav class="container mx-auto flex justify-between items-center">
+            <!-- Changed to site-title-name class, text-white, and removed flicker animation -->
+            <a href="#hero-section" class="site-title-name text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
+            <ul class="flex space-x-5 md:space-x-8">
+                <li><a href="#portfolio-section" class="glass-effect glass-nav-link" onclick="showSection('portfolio-section'); return false;">Portfolio</a></li>
+                <li><a href="#about-section" class="glass-effect glass-nav-link" onclick="showSection('about-section'); return false;">About</a></li>
+                <li><a href="#contact-section" class="glass-effect glass-nav-link" onclick="showSection('contact-section'); return false;">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero-section" class="relative h-screen flex items-center justify-center text-center bg-cover bg-center overflow-hidden active" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Dynamic+Abstract+Video+Background');">
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-gray-900 opacity-80"></div>
+            <div class="relative z-10 p-10 max-w-6xl mx-auto bg-gray-800 bg-opacity-10 rounded-3xl shadow-2xl glass-effect">
+                <h1 class="text-7xl md:text-8xl font-extrabold text-white mb-6 leading-tight fade-in-up">
+                    Crafting <span class="text-purple-400">Visual Narratives</span> That Captivate
+                </h1>
+                <p class="text-2xl md:text-3xl text-gray-300 mb-12 fade-in-up delay-1">
+                    A Video Editor & Storyteller for Brands, Films, and Digital Content.
+                </p>
+            </div>
+        </section>
+
+        <section id="portfolio-section" class="section-content bg-gray-900">
+            <div class="container mx-auto px-6 md:px-12">
+                <h2 class="text-5xl font-bold text-center text-white mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
+
+                <h3 class="text-3xl font-semibold text-center text-gray-400 mb-8 mt-12">Trusted By</h3>
+                <!-- Static Horizontal List (no animation, no duplication) -->
+                <div class="clients-horizontal-list">
+                    <img src="images/empa.png" alt="EMPA Company Logo">
+                    <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
+                    <img src="images/lakipay.png" alt="LakiPay Company Logo">
+                </div>
+                <!-- End Trusted By -->
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
+                    <div class="project-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/jAsqj_Iv3vM?si=8YGJSc22Uz8RDMJ7" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-7">
+                            <h3 class="text-2xl font-semibold text-white mb-2">YouTube Faceless Content</h3>
+                            <p class="text-purple-300 text-sm mb-3">Client: Digital Creator</p>
+                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
+                            <p class="text-gray-300 text-base leading-relaxed">Crafting engaging, high-retention video content designed for anonymous YouTube channels, focusing on storytelling and visual flow.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="video-thumbnail">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="p-7">
+                            <h3 class="text-2xl font-semibold text-white mb-2">Showreel: My Editing Style</h3>
+                            <p class="text-purple-300 text-sm mb-3">Personal Project</p>
+                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
+                            <p class="text-gray-300 text-base leading-relaxed">A curated collection of my best work, highlighting my diverse editing techniques, creative vision, and storytelling prowess.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="image-thumbnail">
+                            <img src="images/certificate1.jpg" alt="Certificate of Completion">
+                        </div>
+                        <div class="p-7">
+                            <h3 class="text-2xl font-semibold text-white mb-2">Videography Certification</h3>
+                            <p class="text-purple-300 text-sm mb-3">Issued by:TOM Video&Photography Training Center</p>
+                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
+                            <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="section-content bg-gray-800">
+            <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/3 flex justify-center">
+                    <img src="images/my-profile-photo.jpg" alt="A professional headshot of Daniel Zekaryas" class="rounded-full w-72 h-72 object-cover shadow-2xl border-4 border-purple-600 float-animation">
+                </div>
+                <div class="md:w-2/3 text-center md:text-left">
+                    <h2 class="text-5xl font-bold text-white mb-8">My Journey in <span class="text-purple-400">Motion</span> & Storytelling</h2>
+                    <p class="text-xl text-gray-300 leading-relaxed">
+                        My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-section" class="section-content bg-gray-900">
+            <div class="container mx-auto px-6 md:px-12">
+                <h2 class="text-5xl font-bold text-center text-white mb-16">Let's <span class="text-purple-400">Collaborate</span> & Create</h2>
+                <div class="max-w-xl mx-auto bg-gray-900 p-10 rounded-3xl shadow-2xl glass-effect">
+                    <p class="text-lg text-gray-300 mb-8 text-center">
+                        Have a project in mind or just want to chat? Fill out the form below, or connect with me directly on Telegram for 24/7 availability!
+                    </p>
+                    <form action="#" method="POST" class="space-y-8">
+                        <div>
+                            <label for="name" class="block text-gray-300 text-lg font-bold mb-3">Name</label>
+                            <input type="text" id="name" name="name" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-300 text-lg font-bold mb-3">Email</label>
+                            <input type="email" id="email" name="email" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="your.email@example.com" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-300 text-lg font-bold mb-3">Message</label>
+                            <textarea id="message" name="message" rows="7" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="Tell me about your project and vision..." required></textarea>
+                        </div>
+                        <div class="flex justify-center">
+                            <button type="submit" class="glass-effect glass-button shadow-lg">
+                                Send Your Vision
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Telegram link directly in contact section -->
+                    <div class="mt-8 text-center">
+                        <p class="text-md text-gray-400 mb-4">Prefer a direct chat?</p>
+                        <a href="https://t.me/beltasorr" target="_blank" class="glass-effect glass-button text-white shadow-lg inline-flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.18 7.72l-2.73 8.3c-.2.6-.5.7-.8.4l-2.03-1.58-1-.48-1.27-1.27-2.04-1.93c-.6-.6-.1-.9.3-.5l6.07-3.76c.4-.2.7-.1.4.3z"/></svg>
+                            Chat on Telegram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-500 py-10 px-6 md:px-12 text-center">
+        <div class="container mx-auto">
+            <p class="text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
+            <!-- Removed Telegram link from footer -->
+        </div>
+    </footer>
+
+    <script>
+        // Function to show a specific section and hide others
+        function showSection(sectionId) {
+            // Get all content sections
+            const sections = document.querySelectorAll('main section');
+
+            // Hide all sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the requested section
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.add('active');
+                // Scroll to the top of the active section (adjust for fixed header)
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: activeSection.offsetTop - document.querySelector('header').offsetHeight,
+                        behavior: 'smooth'
+                    });
+                }, 50); // Small delay
+            }
+        }
+
+        // Intersection Observer for the yellow markers & other elements if needed
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('hero-section'); // Ensure hero section is active on load
+
+            // Observe marker lines
+            const markerLines = document.querySelectorAll('.marker-line');
+            const markerObserverOptions = {
+                root: null, // Use the viewport as the root
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the item is visible
+            };
+            const markerObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('marker-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, markerObserverOptions);
+            markerLines.forEach(line => {
+                markerObserver.observe(line);
+            });
+
+            // Portfolio Project Interaction Logic
+            const viewMoreBtn = document.getElementById('view-more-projects-btn');
+            const remainingProjectsContainer = document.getElementById('remaining-video-projects');
+
+            if (viewMoreBtn && remainingProjectsContainer) {
+                viewMoreBtn.addEventListener('click', () => {
+                    viewMoreBtn.style.display = 'none'; // Hide the button
+                    remainingProjectsContainer.classList.remove('project-hidden');
+                    remainingProjectsContainer.classList.add('project-visible');
+                    // Optional: Scroll to the newly revealed projects
+                    setTimeout(() => {
+                        remainingProjectsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
