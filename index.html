@@ -20,8 +20,7 @@
             color: #E6E6E6; /* Soft white text */
             /* More dynamic, subtle background gradients for artistic vibe */
             background-image: radial-gradient(at 5% 95%, rgba(60, 0, 80, 0.15) 0%, transparent 60%),
-                              radial-gradient(at 95% 5%, rgba(80, 0, 60, 0.15) 0%, transparent 60%),
-                              radial-gradient(at 50% 50%, rgba(30, 0, 40, 0.1) 0%, transparent 70%);
+                              radial-gradient(at 95% 5%, rgba(80, 0, 60, 0.15) 0%, transparent 70%);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -222,39 +221,122 @@
             100% { transform: translateY(0px) scale(1.05); } /* Return to start */
         }
 
-        /* Clients Marquee Animation */
-        .clients-marquee {
-            overflow: hidden;
-            white-space: nowrap;
+        /* Clients Horizontal List (Static, no animation) */
+        .clients-horizontal-list {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem; /* Spacing between logos */
             padding: 2rem 0;
             background-color: transparent; /* Transparent background */
             border-top: none; /* No top border */
             border-bottom: none; /* No bottom border */
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
 
-        .clients-marquee-content {
-            display: inline-block; /* Essential for marquee effect */
-            animation: marquee 20s linear infinite; /* Adjusted duration for speed with fewer logos */
-            padding-right: 2rem; /* Spacing between end and start of loop */
-        }
-
-        .clients-marquee-content img {
+        .clients-horizontal-list img {
             width: 200px; /* Set specific width */
             height: 80px; /* Set specific height */
             object-fit: contain; /* Ensure logos fit within dimensions without cropping */
             filter: none; /* Ensure original colors */
             opacity: 1; /* Ensure full opacity */
             transition: transform 0.3s ease; /* Smooth hover transition */
-            margin: 0 3rem; /* Spacing between logos */
         }
 
-        .clients-marquee-content img:hover {
+        .clients-horizontal-list img:hover {
             transform: scale(1.1); /* Slight zoom on hover */
         }
 
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Half the content width to loop seamlessly */
+        /* Portfolio Project Specifics */
+        .portfolio-grid-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column on small screens */
+            gap: 2.5rem; /* Gap between cards */
+            margin-top: 2rem;
+        }
+
+        @media (min-width: 768px) { /* Medium screens and up */
+            .portfolio-grid-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns */
+            }
+        }
+
+        @media (min-width: 1024px) { /* Large screens and up */
+            .portfolio-grid-container {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns */
+            }
+        }
+
+        /* Click-to-reveal and slider container for video projects */
+        .video-projects-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Stack initially */
+            align-items: center;
+            gap: 2.5rem; /* Gap between stacked projects */
+            width: 100%;
+            overflow: hidden; /* Hide overflow for sliding effect */
+        }
+
+        .video-projects-slider {
+            display: flex; /* Make children align horizontally */
+            gap: 2.5rem;
+            transition: transform 0.5s ease-in-out; /* Smooth slide transition */
+            width: 100%; /* Full width of its container */
+            padding-bottom: 1rem; /* Space for scrollbar if needed */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            scroll-snap-type: x mandatory; /* Snap to cards */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+
+        .video-projects-slider .project-card {
+            flex: 0 0 100%; /* Each card takes full width of the slider viewport */
+            scroll-snap-align: start; /* Snap to the start of each card */
+            max-width: 100%; /* Ensure cards don't exceed wrapper width */
+        }
+
+        @media (min-width: 768px) {
+            .video-projects-slider .project-card {
+                flex: 0 0 calc(50% - 1.25rem); /* 2 cards side-by-side with gap */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .video-projects-slider .project-card {
+                flex: 0 0 calc(33.333% - 1.666rem); /* 3 cards side-by-side with gap */
+            }
+        }
+
+        .project-hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .project-visible {
+            display: block; /* Or flex, grid depending on inner content */
+            opacity: 1;
+        }
+
+        /* Slider navigation buttons */
+        .slider-nav-button {
+            background-color: rgba(139, 92, 246, 0.6); /* Purple button */
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            border: none;
+            margin: 0 0.5rem;
+        }
+        .slider-nav-button:hover {
+            background-color: rgba(139, 92, 246, 0.8);
+            transform: scale(1.05);
+        }
+        .slider-nav-button:disabled {
+            background-color: rgba(139, 92, 246, 0.3);
+            cursor: not-allowed;
         }
     </style>
 </head>
