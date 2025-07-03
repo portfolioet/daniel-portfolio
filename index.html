@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Google Fonts - Date Stamp Font (still linked but not used for title) -->
     <link href="https://fonts.googleapis.com/css2?family=Date+Stamp&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Ramidots for the title font -->
+    <link href="https://fonts.googleapis.com/css2?family=Ramidots&display=swap" rel="stylesheet">
     <style>
         html {
             scroll-behavior: smooth;
@@ -20,7 +22,8 @@
             color: #E6E6E6; /* Soft white text */
             /* More dynamic, subtle background gradients for artistic vibe */
             background-image: radial-gradient(at 5% 95%, rgba(60, 0, 80, 0.15) 0%, transparent 60%),
-                              radial-gradient(at 95% 5%, rgba(80, 0, 60, 0.15) 0%, transparent 70%);
+                              radial-gradient(at 95% 5%, rgba(80, 0, 60, 0.15) 0%, transparent 60%),
+                              radial-gradient(at 50% 50%, rgba(30, 0, 40, 0.1) 0%, transparent 70%);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -29,18 +32,16 @@
         }
         /* Custom class for the site title name */
         .site-title-name {
-            font-family: 'Montserrat', sans-serif; /* Font is Montserrat */
-            font-size: 3.2rem; /* Adjusted size for this font style */
-            font-weight: 800; /* Extra bold for impact */
+            font-family: 'Ramidots', cursive; /* Changed font to Ramidots */
+            font-size: 3.8rem; /* Adjusted size for this font style */
+            font-weight: 400; /* Ramidots is usually 400 */
             line-height: 1;
-            /* Cinematic text-shadow for white shine */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.5); /* White shine */
-            letter-spacing: 0.05em; /* Subtle letter spacing for cinematic feel */
+            text-shadow: none; /* Removed text-shadow */
             animation: none; /* Ensure no animation */
         }
         @media (min-width: 768px) { /* Adjust for medium screens and up */
             .site-title-name {
-                font-size: 4rem; /* Even larger on desktop */
+                font-size: 4.5rem; /* Even larger on desktop */
             }
         }
 
@@ -338,6 +339,31 @@
             background-color: rgba(139, 92, 246, 0.3);
             cursor: not-allowed;
         }
+
+        /* Email Reveal Specifics */
+        .email-container {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out;
+            margin-top: 1rem; /* Space above */
+            text-align: center;
+        }
+        .email-container.revealed {
+            max-height: 100px; /* Sufficient height to reveal content */
+            opacity: 1;
+        }
+        .email-link {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600; /* semibold */
+            color: #8B5CF6; /* text-purple-400 */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .email-link:hover {
+            color: #A78BFA; /* hover:text-purple-300 */
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -372,13 +398,13 @@
                 <h2 class="text-5xl font-bold text-center text-white mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
 
                 <h3 class="text-3xl font-semibold text-center text-gray-400 mb-8 mt-12">Trusted By</h3>
-                <div class="clients-marquee">
-                    <div class="clients-marquee-content">
-                        <img src="images/empa.png" alt="EMPA Company Logo">
-                        <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
-                        <img src="images/lakipay.png" alt="LakiPay Company Logo">
-                    </div>
+                <!-- Static Horizontal List (no animation, no duplication) -->
+                <div class="clients-horizontal-list">
+                    <img src="images/empa.png" alt="EMPA Company Logo">
+                    <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
+                    <img src="images/lakipay.png" alt="LakiPay Company Logo">
                 </div>
+                <!-- End Trusted By -->
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
                     <div class="project-card">
@@ -439,34 +465,25 @@
                 <h2 class="text-5xl font-bold text-center text-white mb-16">Let's <span class="text-purple-400">Collaborate</span> & Create</h2>
                 <div class="max-w-xl mx-auto bg-gray-900 p-10 rounded-3xl shadow-2xl glass-effect">
                     <p class="text-lg text-gray-300 mb-8 text-center">
-                        Have a project in mind or just want to chat? Fill out the form below, or connect with me directly on Telegram for 24/7 availability!
+                        Ready to discuss your next project or just want to connect? Reach out directly!
                     </p>
-                    <form name="contact" method="POST" data-netlify="true" action="/success.html" class="space-y-8">
-                        <div>
-                            <label for="name" class="block text-gray-300 text-lg font-bold mb-3">Name</label>
-                            <input type="text" id="name" name="name" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="Your Name" required>
-                        </div>
-                        <div>
-                            <label for="email" class="block text-gray-300 text-lg font-bold mb-3">Email</label>
-                            <input type="email" id="email" name="email" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="your.email@example.com" required>
-                        </div>
-                        <div>
-                            <label for="message" class="block text-gray-300 text-lg font-bold mb-3">Message</label>
-                            <textarea id="message" name="message" rows="7" class="glass-effect glass-input rounded-lg w-full py-4 px-5 placeholder-gray-400" placeholder="Tell me about your project and vision..." required></textarea>
-                        </div>
-                        <div class="flex justify-center">
-                            <button type="submit" class="glass-effect glass-button shadow-lg">
-                                Send Your Vision
-                            </button>
-                        </div>
-                    </form>
-                    <!-- Telegram link directly in contact section -->
-                    <div class="mt-8 text-center">
-                        <p class="text-md text-gray-400 mb-4">Prefer a direct chat?</p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <!-- Reveal Email Button -->
+                        <button id="reveal-email-btn" class="glass-effect glass-button text-white shadow-lg inline-flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            Reveal Email
+                        </button>
+                        <!-- Telegram Button -->
                         <a href="https://t.me/beltasorr" target="_blank" class="glass-effect glass-button text-white shadow-lg inline-flex items-center">
                             <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.18 7.72l-2.73 8.3c-.2.6-.5.7-.8.4l-2.03-1.58-1-.48-1.27-1.27-2.04-1.93c-.6-.6-.1-.9.3-.5l6.07-3.76c.4-.2.7-.1.4.3z"/></svg>
                             Chat on Telegram
                         </a>
+                    </div>
+                    <!-- Email Container (hidden by default) -->
+                    <div id="email-container" class="email-container mt-4">
+                        <p class="text-lg text-gray-300">
+                            <a href="mailto:daniel1tesema@gmail.com" class="email-link">daniel1tesema@gmail.com</a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -526,6 +543,33 @@
             markerLines.forEach(line => {
                 markerObserver.observe(line);
             });
+
+            // Email Reveal Logic
+            const revealEmailBtn = document.getElementById('reveal-email-btn');
+            const emailContainer = document.getElementById('email-container');
+            const telegramButton = document.querySelector('a[href="https://t.me/beltasorr"]'); // Get the Telegram button
+
+            if (revealEmailBtn && emailContainer) {
+                revealEmailBtn.addEventListener('click', () => {
+                    if (emailContainer.classList.contains('revealed')) {
+                        // If revealed, hide it
+                        emailContainer.classList.remove('revealed');
+                        revealEmailBtn.innerHTML = '<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Reveal Email';
+                        // Show Telegram button again if hidden
+                        if (telegramButton) {
+                            telegramButton.style.display = 'inline-flex';
+                        }
+                    } else {
+                        // If hidden, reveal it
+                        emailContainer.classList.add('revealed');
+                        revealEmailBtn.innerHTML = '<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.18 7.72l-2.73 8.3c-.2.6-.5.7-.8.4l-2.03-1.58-1-.48-1.27-1.27-2.04-1.93c-.6-.6-.1-.9.3-.5l6.07-3.76c.4-.2.7-.1.4.3z"/></svg>Hide Email';
+                        // Hide Telegram button to make space for email
+                        if (telegramButton) {
+                            telegramButton.style.display = 'none';
+                        }
+                    }
+                });
+            }
         });
     </script>
 
