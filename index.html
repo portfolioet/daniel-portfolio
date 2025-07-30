@@ -8,8 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter & Montserrat for a modern, artistic touch -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <!-- Google Fonts - Date Stamp Font (still linked but not used for title) -->
-    <link href="https://fonts.googleapis.com/css2?family=Date+Stamp&display=swap" rel="stylesheet">
     <!-- Google Fonts - Ramidots for the title font -->
     <link href="https://fonts.googleapis.com/css2?family=Ramidots&display=swap" rel="stylesheet">
     <style>
@@ -30,19 +28,13 @@
         h1, h2 {
             font-family: 'Montserrat', sans-serif; /* Headings with Montserrat for impact */
         }
-        /* Custom class for the site title name */
+        /* Custom class for the site title name - now using Tailwind for responsiveness */
         .site-title-name {
-            font-family: 'Ramidots', cursive; /* Changed font to Ramidots */
-            font-size: 3.8rem; /* Adjusted size for this font style */
+            font-family: 'Ramidots', cursive;
             font-weight: 400; /* Ramidots is usually 400 */
             line-height: 1;
-            text-shadow: none; /* Removed text-shadow */
-            animation: none; /* Ensure no animation */
-        }
-        @media (min-width: 768px) { /* Adjust for medium screens and up */
-            .site-title-name {
-                font-size: 4.5rem; /* Even larger on desktop */
-            }
+            text-shadow: none;
+            animation: none;
         }
 
         .video-thumbnail {
@@ -60,15 +52,18 @@
             height: 100%;
         }
 
-        /* New: Styling for the certificate preview image */
+        /* Styling for the certificate preview image */
         .certificate-preview-container {
             position: relative;
-            width: 100%;
-            height: 12rem; /* Fixed height for the preview image */
+            padding-bottom: 141.4%; /* A4 portrait aspect ratio (210x297mm) */
+            height: 0; /* Important for padding-bottom aspect ratio trick */
             overflow: hidden;
             border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
         }
         .certificate-preview-container img {
+            position: absolute; /* Needed for padding-bottom trick */
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensure image covers the area */
@@ -86,8 +81,10 @@
             width: 100%; /* Make the button fill its parent */
             height: 100%; /* Make the button fill its parent */
             display: block; /* Ensure it behaves like a block for full click area */
+            position: absolute; /* To cover the entire container */
+            top: 0;
+            left: 0;
         }
-        /* Removed .certificate-preview-overlay styles as per request */
 
 
         /* Glassmorphism Effect - Enhanced for more depth and glow */
@@ -377,8 +374,8 @@
             text-decoration: underline;
         }
 
-        /* PDF Modal Styles */
-        .pdf-modal-overlay {
+        /* Image Modal Styles (Updated from PDF Modal) */
+        .image-modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
@@ -393,36 +390,37 @@
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .pdf-modal-overlay.active {
+        .image-modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
-        .pdf-modal-content {
+        .image-modal-content {
             position: relative;
             background-color: #1A1A1A; /* Dark background for modal */
             padding: 1.5rem;
             border-radius: 1.5rem; /* Rounded corners */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            max-width: 90%; /* Max width for content */
-            max-height: 90%; /* Max height for content */
-            width: 800px; /* Default width for PDF viewer */
-            height: 600px; /* Default height for PDF viewer */
+            max-width: 90%; /* Responsive max width */
+            max-height: 90%; /* Responsive max height */
+            width: auto; /* Allow content to dictate width */
+            height: auto; /* Allow content to dictate height */
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transform: scale(0.9);
             transition: transform 0.3s ease;
         }
-        .pdf-modal-overlay.active .pdf-modal-content {
+        .image-modal-overlay.active .image-modal-content {
             transform: scale(1);
         }
-        .pdf-modal-content iframe {
-            flex-grow: 1; /* Make iframe fill available space */
-            border: none;
-            width: 100%;
-            height: 100%; /* Fill parent */
-            border-radius: 0.5rem; /* Rounded corners for iframe */
+        .image-modal-content img {
+            max-width: 100%; /* Ensure image fits within modal content */
+            max-height: 100%; /* Ensure image fits within modal content */
+            object-fit: contain; /* Scale image down to fit, preserving aspect ratio */
+            border-radius: 0.5rem; /* Rounded corners for image */
         }
-        .pdf-modal-close {
+        .image-modal-close {
             position: absolute;
             top: 1rem;
             right: 1rem;
@@ -434,7 +432,7 @@
             transition: color 0.3s ease, transform 0.2s ease;
             z-index: 1010; /* Ensure close button is clickable */
         }
-        .pdf-modal-close:hover {
+        .image-modal-close:hover {
             color: #FF0000; /* Red on hover */
             transform: rotate(90deg);
         }
@@ -444,8 +442,8 @@
 
     <header class="text-white py-4 px-6 md:px-12 fixed top-0 left-0 w-full z-20">
         <nav class="container mx-auto flex justify-between items-center">
-            <!-- Changed to site-title-name class, text-white, and removed flicker animation -->
-            <a href="#hero-section" class="site-title-name text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
+            <!-- Site title with responsive font sizes -->
+            <a href="#hero-section" class="site-title-name text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
             <ul class="flex space-x-5 md:space-x-8">
                 <li><a href="#portfolio-section" class="glass-effect glass-nav-link" onclick="showSection('portfolio-section'); return false;">Portfolio</a></li>
                 <li><a href="#about-section" class="glass-effect glass-nav-link" onclick="showSection('about-section'); return false;">About</a></li>
@@ -506,20 +504,19 @@
                     </div>
 
                     <div class="project-card">
-                        <!-- Certificate preview container - no overlay -->
+                        <!-- Certificate preview container - now uses padding-bottom for aspect ratio -->
                         <div class="certificate-preview-container">
-                            <button id="certificate-preview-button" class="certificate-preview-button" onclick="openPdfModal(); return false;">
+                            <button id="certificate-preview-button" class="certificate-preview-button" onclick="openImageModal('images/certificate1.jpg'); return false;">
                                 <img src="images/certificate1.jpg" alt="Profession Certificate Preview">
-                                <!-- Removed .certificate-preview-overlay div -->
                             </button>
                         </div>
                         <div class="p-7">
                             <h3 class="text-2xl font-semibold text-white mb-2">Profession Certificate</h3>
-                            <p class="text-purple-300 text-sm mb-3">Issued by: [Institution Name]</p>
+                            <p class="text-purple-300 text-sm mb-3">Issued by: TOM Training Center</p>
                             <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
                             <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.
-                                <button id="view-certificate-btn" class="text-purple-400 hover:underline inline-flex items-center ml-2">
-                                    View Certificate (PDF)
+                                <button id="view-certificate-btn" class="text-purple-400 hover:underline inline-flex items-center ml-2" onclick="openImageModal('images/certificate1.jpg'); return false;">
+                                    View Certificate (Image)
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                                 </button>
                             </p>
@@ -537,7 +534,10 @@
                 <div class="md:w-2/3 text-center md:text-left">
                     <h2 class="text-5xl font-bold text-white mb-8">My Journey in <span class="text-purple-400">Motion</span> & Storytelling</h2>
                     <p class="text-xl text-gray-300 leading-relaxed">
-                        My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
+                        My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments.
+                    </p>
+                    <p class="text-xl text-gray-300 leading-relaxed mt-4">
+                        I trained and studied at **TOM Training Center** for 1 year, a period that significantly enhanced my skills and refined my creative approach. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
                     </p>
                 </div>
             </div>
@@ -579,11 +579,11 @@
         </div>
     </footer>
 
-    <!-- PDF Modal Structure -->
-    <div id="pdf-modal-overlay" class="pdf-modal-overlay">
-        <div class="pdf-modal-content">
-            <button id="pdf-modal-close" class="pdf-modal-close">&times;</button>
-            <iframe id="pdf-viewer" src="" title="Profession Certificate PDF Viewer"></iframe>
+    <!-- Image Modal Structure (Updated from PDF Modal) -->
+    <div id="image-modal-overlay" class="image-modal-overlay">
+        <div class="image-modal-content">
+            <button id="image-modal-close" class="image-modal-close">&times;</button>
+            <img id="modal-image-viewer" src="" alt="Full Size Certificate Image">
         </div>
     </div>
 
@@ -662,49 +662,49 @@
                 });
             }
 
-            // PDF Modal Logic
-            const pdfModalOverlay = document.getElementById('pdf-modal-overlay');
-            const pdfModalCloseBtn = document.getElementById('pdf-modal-close');
-            const pdfViewer = document.getElementById('pdf-viewer');
+            // Image Modal Logic (Updated from PDF Modal)
+            const imageModalOverlay = document.getElementById('image-modal-overlay');
+            const imageModalCloseBtn = document.getElementById('image-modal-close');
+            const modalImageViewer = document.getElementById('modal-image-viewer'); // Renamed from pdfViewer
             const certificatePreviewButton = document.getElementById('certificate-preview-button');
             const viewCertificateBtn = document.getElementById('view-certificate-btn');
-            const pdfPath = 'images/profession_certificate.pdf'; // Your PDF file path
+            const certificateImagePath = 'images/certificate1.jpg'; // Path to your certificate image
 
-            // Function to open the modal
-            function openPdfModal() {
-                pdfViewer.src = pdfPath; // Set the PDF source
-                pdfModalOverlay.classList.add('active');
+            // Function to open the image modal
+            function openImageModal(imageSrc) {
+                modalImageViewer.src = imageSrc; // Set the image source
+                imageModalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden'; // Prevent scrolling background
             }
 
-            // Function to close the modal
-            function closePdfModal() {
-                pdfModalOverlay.classList.remove('active');
-                pdfViewer.src = ''; // Clear the PDF source to stop loading/playing
+            // Function to close the image modal
+            function closeImageModal() {
+                imageModalOverlay.classList.remove('active');
+                modalImageViewer.src = ''; // Clear the image source
                 document.body.style.overflow = ''; // Restore scrolling
             }
 
             // Event listeners for opening the modal
             if (certificatePreviewButton) {
-                certificatePreviewButton.addEventListener('click', openPdfModal);
+                certificatePreviewButton.addEventListener('click', () => openImageModal(certificateImagePath));
             }
             if (viewCertificateBtn) {
                 viewCertificateBtn.addEventListener('click', (event) => {
-                    event.preventDefault(); // Prevent default button action (if any)
-                    openPdfModal();
+                    event.preventDefault(); // Prevent default button action
+                    openImageModal(certificateImagePath);
                 });
             }
 
             // Event listener for closing the modal
-            if (pdfModalCloseBtn) {
-                pdfModalCloseBtn.addEventListener('click', closePdfModal);
+            if (imageModalCloseBtn) {
+                imageModalCloseBtn.addEventListener('click', closeImageModal);
             }
 
             // Close modal when clicking outside the content
-            if (pdfModalOverlay) {
-                pdfModalOverlay.addEventListener('click', (event) => {
-                    if (event.target === pdfModalOverlay) {
-                        closePdfModal();
+            if (imageModalOverlay) {
+                imageModalOverlay.addEventListener('click', (event) => {
+                    if (event.target === imageModalOverlay) {
+                        closeImageModal();
                     }
                 });
             }
