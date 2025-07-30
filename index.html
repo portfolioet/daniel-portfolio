@@ -480,27 +480,28 @@
     </div>
 
     <header class="text-white py-4 px-6 md:px-12 fixed top-0 left-0 w-full z-20">
-        <nav class="container mx-auto flex justify-between items-center">
-            <!-- Site title with responsive font sizes -->
-            <a href="#hero-section" class="site-title-name text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
-
-            <!-- Desktop Navigation -->
-            <ul class="hidden md:flex space-x-5 lg:space-x-8">
-                <li><a href="#portfolio-section" class="glass-effect glass-nav-link" onclick="showSection('portfolio-section'); return false;">Portfolio</a></li>
-                <li><a href="#about-section" class="glass-effect glass-nav-link" onclick="showSection('about-section'); return false;">About</a></li>
-                <li><a href="#contact-section" class="glass-effect glass-nav-link" onclick="showSection('contact-section'); return false;">Contact</a></li>
-            </ul>
-
-            <!-- Mobile Menu Button (Hamburger) -->
-            <div class="md:hidden">
+        <nav class="container mx-auto flex items-center">
+            <!-- Hamburger button (visible on mobile, hidden on desktop) -->
+            <div class="md:hidden mr-4"> <!-- Added mr-4 for spacing -->
                 <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none p-2 rounded-md">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
             </div>
+
+            <!-- Site title (always visible, positioned relative to hamburger on mobile) -->
+            <a href="#hero-section" class="site-title-name text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
+
+            <!-- Desktop Navigation (pushed to right on desktop, hidden on mobile) -->
+            <ul class="hidden md:flex space-x-5 lg:space-x-8 ml-auto"> <!-- ml-auto pushes it to the right -->
+                <li><a href="#portfolio-section" class="glass-effect glass-nav-link" onclick="showSection('portfolio-section'); return false;">Portfolio</a></li>
+                <li><a href="#about-section" class="glass-effect glass-nav-link" onclick="showSection('about-section'); return false;">About</a></li>
+                <li><a href="#contact-section" class="glass-effect glass-nav-link" onclick="showSection('contact-section'); return false;">Contact</a></li>
+            </ul>
         </nav>
-        <!-- Mobile Menu (Hidden by default, slides down) -->
-        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0 pointer-events-none z-40">
-            <ul class="flex flex-col items-center justify-center h-full space-y-8">
+
+        <!-- Mobile Menu (slides out from left) -->
+        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-64 h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-x-full opacity-0 pointer-events-none z-40">
+            <ul class="flex flex-col items-start space-y-4 px-6 pt-4"> <!-- Adjusted padding and alignment -->
                 <li><a href="#portfolio-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('portfolio-section'); return false;">Portfolio</a></li>
                 <li><a href="#about-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('about-section'); return false;">About</a></li>
                 <li><a href="#contact-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('contact-section'); return false;">Contact</a></li>
