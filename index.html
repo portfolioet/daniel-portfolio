@@ -499,14 +499,16 @@
             </ul>
         </nav>
 
-        <!-- Mobile Menu (slides out from left) -->
-        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-64 h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-x-full opacity-0 pointer-events-none z-40">
+        <!-- Mobile Menu (slides out from right) -->
+        <div id="mobile-menu" class="md:hidden fixed top-0 right-0 w-64 h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out z-40" style="transform: translateX(100%); opacity: 0; pointer-events: none;">
             <ul class="flex flex-col items-start space-y-4 px-6 pt-4"> <!-- Adjusted padding and alignment -->
                 <li><a href="#portfolio-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('portfolio-section'); return false;">Portfolio</a></li>
                 <li><a href="#about-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('about-section'); return false;">About</a></li>
                 <li><a href="#contact-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('contact-section'); return false;">Contact</a></li>
             </ul>
         </div>
+        <!-- Overlay for when mobile menu is open -->
+        <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="closeMobileMenu()"></div>
     </header>
 
     <main>
@@ -642,6 +644,7 @@
         // Function to show/hide mobile menu with animation
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const menuOverlay = document.getElementById('menu-overlay'); // Get the new overlay element
 
         function toggleMobileMenu() {
             if (mobileMenu.classList.contains('active')) {
@@ -653,16 +656,18 @@
 
         function openMobileMenu() {
             mobileMenu.classList.add('active');
-            mobileMenu.style.left = '0'; // Slide in
+            mobileMenu.style.transform = 'translateX(0)'; // Slide in from right
             mobileMenu.style.opacity = '1'; // Fade in
             mobileMenu.style.pointerEvents = 'auto'; // Enable interactions
+            menuOverlay.classList.remove('hidden'); // Show overlay
             document.body.style.overflow = 'hidden'; // Prevent background scroll when menu is open
         }
 
         function closeMobileMenu() {
             mobileMenu.classList.remove('active');
-            mobileMenu.style.left = '-100vw'; // Slide out
+            mobileMenu.style.transform = 'translateX(100%)'; // Slide out to right
             mobileMenu.style.opacity = '0'; // Fade out
+            menuOverlay.classList.add('hidden'); // Hide overlay
             // Disable pointer events after the transition completes
             setTimeout(() => {
                 mobileMenu.style.pointerEvents = 'none';
@@ -671,6 +676,7 @@
         }
 
         mobileMenuButton.addEventListener('click', toggleMobileMenu);
+        menuOverlay.addEventListener('click', closeMobileMenu); // Close menu when overlay is clicked
 
         // Function to show a specific section and hide others, with mobile menu closing delay
         function closeMobileMenuThenScroll(sectionId) {
