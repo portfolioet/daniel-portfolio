@@ -11,6 +11,7 @@
     <!-- Google Fonts - Ramidots for the title font -->
     <link href="https://fonts.googleapis.com/css2?family=Ramidots&display=swap" rel="stylesheet">
     <style>
+        /* Base styles for smooth scrolling and font consistency */
         html {
             scroll-behavior: smooth;
         }
@@ -24,8 +25,9 @@
                               radial-gradient(at 50% 50%, rgba(30, 0, 40, 0.1) 0%, transparent 70%);
             background-repeat: no-repeat;
             background-attachment: fixed;
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
         }
-        h1, h2 {
+        h1, h2, h3 { /* Apply Montserrat to all main headings */
             font-family: 'Montserrat', sans-serif; /* Headings with Montserrat for impact */
         }
         /* Custom class for the site title name - now using Tailwind for responsiveness */
@@ -37,55 +39,42 @@
             animation: none;
         }
 
-        .video-thumbnail {
+        /* Consistent aspect ratio for all media thumbnails (videos and images) */
+        .video-thumbnail, .certificate-preview-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio for both */
+            height: 0; /* Ensures padding-bottom defines height */
             overflow: hidden;
-            border-radius: 0.75rem; /* More rounded corners for videos */
+            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
         }
-        .video-thumbnail iframe {
+        .video-thumbnail iframe,
+        .certificate-preview-container img {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-        }
-
-        /* Styling for the certificate preview image */
-        .certificate-preview-container {
-            position: relative;
-            padding-bottom: 141.4%; /* A4 portrait aspect ratio (210x297mm) */
-            height: 0; /* Important for padding-bottom aspect ratio trick */
-            overflow: hidden;
-            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
+            object-fit: cover; /* Ensures content fills the space, potentially cropping */
         }
         .certificate-preview-container img {
-            position: absolute; /* Needed for padding-bottom trick */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensure image covers the area */
             transition: transform 0.3s ease;
         }
         .certificate-preview-container:hover img {
             transform: scale(1.05); /* Slight zoom on hover for the image */
         }
-        /* Ensure the button wrapping the image has no default button styling */
+        /* Button wrapping the image for clickability */
         .certificate-preview-button {
             background: none;
             border: none;
             padding: 0;
             cursor: pointer;
-            width: 100%; /* Make the button fill its parent */
-            height: 100%; /* Make the button fill its parent */
-            display: block; /* Ensure it behaves like a block for full click area */
-            position: absolute; /* To cover the entire container */
+            width: 100%;
+            height: 100%;
+            display: block;
+            position: absolute;
             top: 0;
             left: 0;
         }
-
 
         /* Glassmorphism Effect - Enhanced for more depth and glow */
         .glass-effect {
@@ -374,7 +363,7 @@
             text-decoration: underline;
         }
 
-        /* Image Modal Styles (Updated from PDF Modal) */
+        /* Image Modal Styles */
         .image-modal-overlay {
             position: fixed;
             top: 0;
@@ -444,32 +433,49 @@
         <nav class="container mx-auto flex justify-between items-center">
             <!-- Site title with responsive font sizes -->
             <a href="#hero-section" class="site-title-name text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-wider hover:text-gray-300 transition duration-300" onclick="showSection('hero-section'); return false;">Daniel Zekaryas</a>
-            <ul class="flex space-x-5 md:space-x-8">
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden md:flex space-x-5 lg:space-x-8">
                 <li><a href="#portfolio-section" class="glass-effect glass-nav-link" onclick="showSection('portfolio-section'); return false;">Portfolio</a></li>
                 <li><a href="#about-section" class="glass-effect glass-nav-link" onclick="showSection('about-section'); return false;">About</a></li>
                 <li><a href="#contact-section" class="glass-effect glass-nav-link" onclick="showSection('contact-section'); return false;">Contact</a></li>
             </ul>
+
+            <!-- Mobile Menu Button (Hamburger) -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white hover:text-gray-300 focus:outline-none p-2 rounded-md">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
         </nav>
+        <!-- Mobile Menu (Hidden by default, slides down) -->
+        <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0 pointer-events-none z-40">
+            <ul class="flex flex-col items-center justify-center h-full space-y-8">
+                <li><a href="#portfolio-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('portfolio-section'); return false;">Portfolio</a></li>
+                <li><a href="#about-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('about-section'); return false;">About</a></li>
+                <li><a href="#contact-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('contact-section'); return false;">Contact</a></li>
+            </ul>
+        </div>
     </header>
 
     <main>
         <section id="hero-section" class="relative h-screen flex items-center justify-center text-center bg-cover bg-center overflow-hidden active" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Dynamic+Abstract+Video+Background');">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-gray-900 opacity-80"></div>
-            <div class="relative z-10 p-10 max-w-6xl mx-auto bg-gray-800 bg-opacity-10 rounded-3xl shadow-2xl glass-effect">
-                <h1 class="text-7xl md:text-8xl font-extrabold text-white mb-6 leading-tight fade-in-up">
+            <div class="relative z-10 p-6 md:p-10 max-w-6xl mx-auto bg-gray-800 bg-opacity-10 rounded-3xl shadow-2xl glass-effect">
+                <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-4 md:mb-6 leading-tight fade-in-up">
                     Crafting <span class="text-purple-400">Visual Narratives</span> That Captivate
                 </h1>
-                <p class="text-2xl md:text-3xl text-gray-300 mb-12 fade-in-up delay-1">
+                <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 mb-8 md:mb-12 fade-in-up delay-1">
                     A Video Editor & Storyteller for Brands, Films, and Digital Content.
                 </p>
             </div>
         </section>
 
         <section id="portfolio-section" class="section-content bg-gray-900">
-            <div class="container mx-auto px-6 md:px-12">
-                <h2 class="text-5xl font-bold text-center text-white mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16"> <!-- Adjusted horizontal padding -->
+                <h2 class="text-4xl sm:text-5xl font-bold text-center text-white mb-12 md:mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
 
-                <h3 class="text-3xl font-semibold text-center text-gray-400 mb-8 mt-12">Trusted By</h3>
+                <h3 class="text-2xl sm:text-3xl font-semibold text-center text-gray-400 mb-6 md:mb-8 mt-8 md:mt-12">Trusted By</h3>
                 <!-- Static Horizontal List (no animation, no duplication) -->
                 <div class="clients-horizontal-list">
                     <img src="images/empa.png" alt="EMPA Company Logo">
@@ -478,16 +484,16 @@
                 </div>
                 <!-- End Trusted By -->
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mt-12 md:mt-16">
                     <div class="project-card">
                         <div class="video-thumbnail">
                             <iframe src="https://www.youtube.com/embed/jAsqj_Iv3vM?si=8YGJSc22Uz8RDMJ7" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
-                        <div class="p-7">
-                            <h3 class="text-2xl font-semibold text-white mb-2">YouTube Faceless Content</h3>
+                        <div class="p-5 md:p-7">
+                            <h3 class="text-xl md:text-2xl font-semibold text-white mb-2">YouTube Faceless Content</h3>
                             <p class="text-purple-300 text-sm mb-3">Client: Digital Creator</p>
-                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
-                            <p class="text-gray-300 text-base leading-relaxed">Crafting engaging, high-retention video content designed for anonymous YouTube channels, focusing on storytelling and visual flow.</p>
+                            <div class="marker-line bg-yellow-400 rounded-full my-3 md:my-4"></div>
+                            <p class="text-gray-300 text-sm md:text-base leading-relaxed">Crafting engaging, high-retention video content designed for anonymous YouTube channels, focusing on storytelling and visual flow.</p>
                         </div>
                     </div>
 
@@ -495,26 +501,26 @@
                         <div class="video-thumbnail">
                             <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
-                        <div class="p-7">
-                            <h3 class="text-2xl font-semibold text-white mb-2">Showreel: My Editing Style</h3>
+                        <div class="p-5 md:p-7">
+                            <h3 class="text-xl md:text-2xl font-semibold text-white mb-2">Showreel: My Editing Style</h3>
                             <p class="text-purple-300 text-sm mb-3">Personal Project</p>
-                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
-                            <p class="text-gray-300 text-base leading-relaxed">A curated collection of my best work, highlighting my diverse editing techniques, creative vision, and storytelling prowess.</p>
+                            <div class="marker-line bg-yellow-400 rounded-full my-3 md:my-4"></div>
+                            <p class="text-gray-300 text-sm md:text-base leading-relaxed">A curated collection of my best work, highlighting my diverse editing techniques, creative vision, and storytelling prowess.</p>
                         </div>
                     </div>
 
                     <div class="project-card">
-                        <!-- Certificate preview container - now uses padding-bottom for aspect ratio -->
+                        <!-- Certificate preview container - now uses 16:9 aspect ratio for consistency -->
                         <div class="certificate-preview-container">
                             <button id="certificate-preview-button" class="certificate-preview-button" onclick="openImageModal('images/certificate1.jpg'); return false;">
                                 <img src="images/certificate1.jpg" alt="Profession Certificate Preview">
                             </button>
                         </div>
-                        <div class="p-7">
-                            <h3 class="text-2xl font-semibold text-white mb-2">Profession Certificate</h3>
+                        <div class="p-5 md:p-7">
+                            <h3 class="text-xl md:text-2xl font-semibold text-white mb-2">Profession Certificate</h3>
                             <p class="text-purple-300 text-sm mb-3">Issued by: TOM Training Center</p>
-                            <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
-                            <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.
+                            <div class="marker-line bg-yellow-400 rounded-full my-3 md:my-4"></div>
+                            <p class="text-gray-300 text-sm md:text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.
                                 <button id="view-certificate-btn" class="text-purple-400 hover:underline inline-flex items-center ml-2" onclick="openImageModal('images/certificate1.jpg'); return false;">
                                     View Certificate (Image)
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
@@ -527,27 +533,29 @@
         </section>
 
         <section id="about-section" class="section-content bg-gray-800">
-            <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-16">
-                <div class="md:w-1/3 flex justify-center">
-                    <img src="images/my-profile-photo.jpg" alt="A professional headshot of Daniel Zekaryas" class="rounded-full w-72 h-72 object-cover shadow-2xl border-4 border-purple-600 float-animation">
-                </div>
-                <div class="md:w-2/3 text-center md:text-left">
-                    <h2 class="text-5xl font-bold text-white mb-8">My Journey in <span class="text-purple-400">Motion</span> & Storytelling</h2>
-                    <p class="text-xl text-gray-300 leading-relaxed">
-                        My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments.
-                    </p>
-                    <p class="text-xl text-gray-300 leading-relaxed mt-4">
-                        I trained and studied at **TOM Training Center** for 1 year, a period that significantly enhanced my skills and refined my creative approach. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
-                    </p>
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16"> <!-- Adjusted horizontal padding -->
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+                    <div class="md:w-1/3 flex justify-center">
+                        <img src="images/my-profile-photo.jpg" alt="A professional headshot of Daniel Zekaryas" class="rounded-full w-64 h-64 md:w-72 md:h-72 object-cover shadow-2xl border-4 border-purple-600 float-animation">
+                    </div>
+                    <div class="md:w-2/3 text-center md:text-left">
+                        <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6 md:mb-8">My Journey in <span class="text-purple-400">Motion</span> & Storytelling</h2>
+                        <p class="text-lg md:text-xl text-gray-300 leading-relaxed">
+                            My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments.
+                        </p>
+                        <p class="text-lg md:text-xl text-gray-300 leading-relaxed mt-4">
+                            I trained and studied at **TOM Training Center** for 1 year, a period that significantly enhanced my skills and refined my creative approach. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section id="contact-section" class="section-content bg-gray-900">
-            <div class="container mx-auto px-6 md:px-12">
-                <h2 class="text-5xl font-bold text-center text-white mb-16">Let's <span class="text-purple-400">Collaborate</span> & Create</h2>
-                <div class="max-w-xl mx-auto bg-gray-900 p-10 rounded-3xl shadow-2xl glass-effect">
-                    <p class="text-lg text-gray-300 mb-8 text-center">
+            <div class="container mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16"> <!-- Adjusted horizontal padding -->
+                <h2 class="text-4xl sm:text-5xl font-bold text-center text-white mb-12 md:mb-16">Let's <span class="text-purple-400">Collaborate</span> & Create</h2>
+                <div class="max-w-xl mx-auto bg-gray-900 p-8 md:p-10 rounded-3xl shadow-2xl glass-effect">
+                    <p class="text-lg md:text-xl text-gray-300 mb-6 md:mb-8 text-center">
                         Ready to discuss your next project or just want to connect? Reach out directly!
                     </p>
                     <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -573,13 +581,13 @@
         </section>
     </main>
 
-    <footer class="bg-gray-900 text-gray-500 py-10 px-6 md:px-12 text-center">
+    <footer class="bg-gray-900 text-gray-500 py-8 px-6 md:px-12 text-center">
         <div class="container mx-auto">
-            <p class="text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
+            <p class="text-base md:text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
         </div>
     </footer>
 
-    <!-- Image Modal Structure (Updated from PDF Modal) -->
+    <!-- Image Modal Structure -->
     <div id="image-modal-overlay" class="image-modal-overlay">
         <div class="image-modal-content">
             <button id="image-modal-close" class="image-modal-close">&times;</button>
@@ -588,28 +596,55 @@
     </div>
 
     <script>
+        // Function to show/hide mobile menu with animation
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMobileMenu() {
+            if (mobileMenu.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        }
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            // Ensure it covers the full screen and is interactive
+            mobileMenu.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
+            mobileMenu.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            document.body.style.overflow = 'hidden'; // Prevent background scroll when menu is open
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            mobileMenu.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+            document.body.style.overflow = ''; // Restore background scroll
+        }
+
+        mobileMenuButton.addEventListener('click', toggleMobileMenu);
+
         // Function to show a specific section and hide others
         function showSection(sectionId) {
-            // Get all content sections
             const sections = document.querySelectorAll('main section');
-
-            // Hide all sections
             sections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Show the requested section
             const activeSection = document.getElementById(sectionId);
             if (activeSection) {
                 activeSection.classList.add('active');
                 // Scroll to the top of the active section (adjust for fixed header)
                 setTimeout(() => {
+                    const headerHeight = document.querySelector('header').offsetHeight;
                     window.scrollTo({
-                        top: activeSection.offsetTop - document.querySelector('header').offsetHeight,
+                        top: activeSection.offsetTop - headerHeight,
                         behavior: 'smooth'
                     });
                 }, 50); // Small delay
             }
+            closeMobileMenu(); // Close mobile menu after navigating
         }
 
         // Intersection Observer for the yellow markers & other elements if needed
@@ -662,10 +697,10 @@
                 });
             }
 
-            // Image Modal Logic (Updated from PDF Modal)
+            // Image Modal Logic
             const imageModalOverlay = document.getElementById('image-modal-overlay');
             const imageModalCloseBtn = document.getElementById('image-modal-close');
-            const modalImageViewer = document.getElementById('modal-image-viewer'); // Renamed from pdfViewer
+            const modalImageViewer = document.getElementById('modal-image-viewer');
             const certificatePreviewButton = document.getElementById('certificate-preview-button');
             const viewCertificateBtn = document.getElementById('view-certificate-btn');
             const certificateImagePath = 'images/certificate1.jpg'; // Path to your certificate image
