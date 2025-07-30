@@ -60,22 +60,47 @@
             height: 100%;
         }
 
-        /* New: Image thumbnail styling */
-        .image-thumbnail {
+        /* New: Styling for the certificate preview image */
+        .certificate-preview-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
+            width: 100%;
+            height: 12rem; /* Fixed height for the preview image */
             overflow: hidden;
-            border-radius: 0.75rem; /* Consistent with video-thumbnail */
+            border-radius: 0.75rem 0.75rem 0 0; /* Rounded top corners */
         }
-        .image-thumbnail img {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .certificate-preview-container img {
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensure image covers the area */
-            cursor: pointer; /* Indicate clickability */
+            transition: transform 0.3s ease;
+        }
+        .certificate-preview-container:hover img {
+            transform: scale(1.05); /* Slight zoom on hover for the image */
+        }
+        /* Ensure the button wrapping the image has no default button styling */
+        .certificate-preview-button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            width: 100%; /* Make the button fill its parent */
+            height: 100%; /* Make the button fill its parent */
+            display: block; /* Ensure it behaves like a block for full click area */
+        }
+        /* Overlay for the eye icon on hover */
+        .certificate-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 0.75rem 0.75rem 0 0; /* Match container rounding */
+        }
+        .certificate-preview-container:hover .certificate-preview-overlay {
+            opacity: 1;
         }
 
 
@@ -152,7 +177,7 @@
         }
         /* Combined hover effect for both video and image thumbnails */
         .project-card:hover .video-thumbnail,
-        .project-card:hover .image-thumbnail {
+        .project-card:hover .certificate-preview-container { /* Updated selector */
             box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.6); /* Stronger shadow and purple glow */
         }
 
@@ -495,9 +520,14 @@
                     </div>
 
                     <div class="project-card">
-                        <!-- Added id for JS targeting and cursor-pointer for visual cue -->
-                        <div class="image-thumbnail cursor-pointer" id="certificate-thumbnail">
-                            <img src="images/certificate1.jpg" alt="Profession Certificate">
+                        <!-- New structure for the certificate preview -->
+                        <div class="certificate-preview-container">
+                            <button id="certificate-preview-button" class="certificate-preview-button" onclick="openPdfModal(); return false;">
+                                <img src="images/certificate1.jpg" alt="Profession Certificate Preview">
+                                <div class="certificate-preview-overlay">
+                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                </div>
+                            </button>
                         </div>
                         <div class="p-7">
                             <h3 class="text-2xl font-semibold text-white mb-2">Profession Certificate</h3>
@@ -652,9 +682,8 @@
             const pdfModalOverlay = document.getElementById('pdf-modal-overlay');
             const pdfModalCloseBtn = document.getElementById('pdf-modal-close');
             const pdfViewer = document.getElementById('pdf-viewer');
-            const certificateThumbnail = document.getElementById('certificate-thumbnail');
+            const certificatePreviewButton = document.getElementById('certificate-preview-button'); // Changed ID
             const viewCertificateBtn = document.getElementById('view-certificate-btn');
-            // UPDATED PDF PATH
             const pdfPath = 'images/profession_certificate.pdf'; // Your PDF file path
 
             // Function to open the modal
@@ -672,8 +701,8 @@
             }
 
             // Event listeners for opening the modal
-            if (certificateThumbnail) {
-                certificateThumbnail.addEventListener('click', openPdfModal);
+            if (certificatePreviewButton) { // Changed ID
+                certificatePreviewButton.addEventListener('click', openPdfModal);
             }
             if (viewCertificateBtn) {
                 viewCertificateBtn.addEventListener('click', (event) => {
