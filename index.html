@@ -87,21 +87,7 @@
             height: 100%; /* Make the button fill its parent */
             display: block; /* Ensure it behaves like a block for full click area */
         }
-        /* Overlay for the eye icon on hover */
-        .certificate-preview-overlay {
-            position: absolute;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 0.75rem 0.75rem 0 0; /* Match container rounding */
-        }
-        .certificate-preview-container:hover .certificate-preview-overlay {
-            opacity: 1;
-        }
+        /* Removed .certificate-preview-overlay styles as per request */
 
 
         /* Glassmorphism Effect - Enhanced for more depth and glow */
@@ -520,13 +506,11 @@
                     </div>
 
                     <div class="project-card">
-                        <!-- New structure for the certificate preview -->
+                        <!-- Certificate preview container - no overlay -->
                         <div class="certificate-preview-container">
                             <button id="certificate-preview-button" class="certificate-preview-button" onclick="openPdfModal(); return false;">
                                 <img src="images/certificate1.jpg" alt="Profession Certificate Preview">
-                                <div class="certificate-preview-overlay">
-                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                                </div>
+                                <!-- Removed .certificate-preview-overlay div -->
                             </button>
                         </div>
                         <div class="p-7">
@@ -682,7 +666,7 @@
             const pdfModalOverlay = document.getElementById('pdf-modal-overlay');
             const pdfModalCloseBtn = document.getElementById('pdf-modal-close');
             const pdfViewer = document.getElementById('pdf-viewer');
-            const certificatePreviewButton = document.getElementById('certificate-preview-button'); // Changed ID
+            const certificatePreviewButton = document.getElementById('certificate-preview-button');
             const viewCertificateBtn = document.getElementById('view-certificate-btn');
             const pdfPath = 'images/profession_certificate.pdf'; // Your PDF file path
 
@@ -701,7 +685,7 @@
             }
 
             // Event listeners for opening the modal
-            if (certificatePreviewButton) { // Changed ID
+            if (certificatePreviewButton) {
                 certificatePreviewButton.addEventListener('click', openPdfModal);
             }
             if (viewCertificateBtn) {
