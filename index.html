@@ -208,6 +208,12 @@
             display: block; /* Show active section */
             opacity: 1; /* Fade in */
         }
+        /* Ensure hero section is always visible initially, but still responds to showSection */
+        #hero-section {
+            display: block; /* Default to block for hero */
+            opacity: 1; /* Default to opaque for hero */
+        }
+
 
         /* About Photo Animation */
         .float-animation {
@@ -495,9 +501,9 @@
         <!-- Mobile Menu (Hidden by default, slides down) -->
         <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0 pointer-events-none z-40">
             <ul class="flex flex-col items-center justify-center h-full space-y-8">
-                <li><a href="#portfolio-section" class="block text-white text-2xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('portfolio-section'); return false;">Portfolio</a></li>
-                <li><a href="#about-section" class="block text-white text-2xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('about-section'); return false;">About</a></li>
-                <li><a href="#contact-section" class="block text-white text-2xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('contact-section'); return false;">Contact</a></li>
+                <li><a href="#portfolio-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('portfolio-section'); return false;">Portfolio</a></li>
+                <li><a href="#about-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('about-section'); return false;">About</a></li>
+                <li><a href="#contact-section" class="block text-white text-xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('contact-section'); return false;">Contact</a></li>
             </ul>
         </div>
     </header>
