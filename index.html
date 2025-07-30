@@ -75,6 +75,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover; /* Ensure image covers the area */
+            cursor: pointer; /* Indicate clickability */
         }
 
 
@@ -364,6 +365,68 @@
             color: #A78BFA; /* hover:text-purple-300 */
             text-decoration: underline;
         }
+
+        /* PDF Modal Styles */
+        .pdf-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* On top of everything */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .pdf-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .pdf-modal-content {
+            position: relative;
+            background-color: #1A1A1A; /* Dark background for modal */
+            padding: 1.5rem;
+            border-radius: 1.5rem; /* Rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 90%; /* Max width for content */
+            max-height: 90%; /* Max height for content */
+            width: 800px; /* Default width for PDF viewer */
+            height: 600px; /* Default height for PDF viewer */
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .pdf-modal-overlay.active .pdf-modal-content {
+            transform: scale(1);
+        }
+        .pdf-modal-content iframe {
+            flex-grow: 1; /* Make iframe fill available space */
+            border: none;
+            width: 100%;
+            height: 100%; /* Fill parent */
+            border-radius: 0.5rem; /* Rounded corners for iframe */
+        }
+        .pdf-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #E6E6E6;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.2s ease;
+            z-index: 1010; /* Ensure close button is clickable */
+        }
+        .pdf-modal-close:hover {
+            color: #FF0000; /* Red on hover */
+            transform: rotate(90deg);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -432,14 +495,20 @@
                     </div>
 
                     <div class="project-card">
-                        <div class="image-thumbnail">
-                            <img src="images/certificate1.jpg" alt="Certificate of Completion">
+                        <!-- Added id for JS targeting and cursor-pointer for visual cue -->
+                        <div class="image-thumbnail cursor-pointer" id="certificate-thumbnail">
+                            <img src="images/certificate1.jpg" alt="Profession Certificate">
                         </div>
                         <div class="p-7">
-                            <h3 class="text-2xl font-semibold text-white mb-2">Videography Certification</h3>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Profession Certificate</h3>
                             <p class="text-purple-300 text-sm mb-3">Issued by: [Institution Name]</p>
                             <div class="marker-line bg-yellow-400 rounded-full my-4"></div>
-                            <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.</p>
+                            <p class="text-gray-300 text-base leading-relaxed">Proof of advanced training in videography principles, camera operation, and post-production techniques.
+                                <button id="view-certificate-btn" class="text-purple-400 hover:underline inline-flex items-center ml-2">
+                                    View Certificate (PDF)
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                </button>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -495,6 +564,14 @@
             <p class="text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
         </div>
     </footer>
+
+    <!-- PDF Modal Structure -->
+    <div id="pdf-modal-overlay" class="pdf-modal-overlay">
+        <div class="pdf-modal-content">
+            <button id="pdf-modal-close" class="pdf-modal-close">&times;</button>
+            <iframe id="pdf-viewer" src="" title="Profession Certificate PDF Viewer"></iframe>
+        </div>
+    </div>
 
     <script>
         // Function to show a specific section and hide others
@@ -567,6 +644,54 @@
                         if (telegramButton) {
                             telegramButton.style.display = 'none';
                         }
+                    }
+                });
+            }
+
+            // PDF Modal Logic
+            const pdfModalOverlay = document.getElementById('pdf-modal-overlay');
+            const pdfModalCloseBtn = document.getElementById('pdf-modal-close');
+            const pdfViewer = document.getElementById('pdf-viewer');
+            const certificateThumbnail = document.getElementById('certificate-thumbnail');
+            const viewCertificateBtn = document.getElementById('view-certificate-btn');
+            // UPDATED PDF PATH
+            const pdfPath = 'images/profession_certificate.pdf'; // Your PDF file path
+
+            // Function to open the modal
+            function openPdfModal() {
+                pdfViewer.src = pdfPath; // Set the PDF source
+                pdfModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling background
+            }
+
+            // Function to close the modal
+            function closePdfModal() {
+                pdfModalOverlay.classList.remove('active');
+                pdfViewer.src = ''; // Clear the PDF source to stop loading/playing
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Event listeners for opening the modal
+            if (certificateThumbnail) {
+                certificateThumbnail.addEventListener('click', openPdfModal);
+            }
+            if (viewCertificateBtn) {
+                viewCertificateBtn.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent default button action (if any)
+                    openPdfModal();
+                });
+            }
+
+            // Event listener for closing the modal
+            if (pdfModalCloseBtn) {
+                pdfModalCloseBtn.addEventListener('click', closePdfModal);
+            }
+
+            // Close modal when clicking outside the content
+            if (pdfModalOverlay) {
+                pdfModalOverlay.addEventListener('click', (event) => {
+                    if (event.target === pdfModalOverlay) {
+                        closePdfModal();
                     }
                 });
             }
