@@ -196,17 +196,17 @@
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
         }
 
-        /* Section visibility */
+        /* Section visibility - IMPORTANT: Default to hidden, active to show */
         .section-content {
             display: none; /* Hidden by default */
             padding-top: 8rem; /* Space for fixed header */
             min-height: calc(100vh - 10rem); /* Ensure content pushes footer down */
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
+            opacity: 0; /* Start invisible for fade-in */
+            transition: opacity 0.5s ease-in-out; /* Smooth fade transition */
         }
         .section-content.active {
             display: block; /* Show active section */
-            opacity: 1;
+            opacity: 1; /* Fade in */
         }
 
         /* About Photo Animation */
@@ -425,9 +425,53 @@
             color: #FF0000; /* Red on hover */
             transform: rotate(90deg);
         }
+
+        /* Loading Screen Styles */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0A0A0A; /* Match body background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Highest z-index to cover everything */
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top: 8px solid #8B5CF6; /* Purple spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="antialiased">
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay">
+        <div class="spinner"></div>
+        <p class="text-white text-xl font-semibold">Crafted With Passion</p>
+    </div>
 
     <header class="text-white py-4 px-6 md:px-12 fixed top-0 left-0 w-full z-20">
         <nav class="container mx-auto flex justify-between items-center">
@@ -451,15 +495,16 @@
         <!-- Mobile Menu (Hidden by default, slides down) -->
         <div id="mobile-menu" class="md:hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-95 backdrop-blur-xl shadow-lg py-16 transition-all duration-300 ease-in-out transform -translate-y-full opacity-0 pointer-events-none z-40">
             <ul class="flex flex-col items-center justify-center h-full space-y-8">
-                <li><a href="#portfolio-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('portfolio-section'); return false;">Portfolio</a></li>
-                <li><a href="#about-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('about-section'); return false;">About</a></li>
-                <li><a href="#contact-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenu(); showSection('contact-section'); return false;">Contact</a></li>
+                <li><a href="#portfolio-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('portfolio-section'); return false;">Portfolio</a></li>
+                <li><a href="#about-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('about-section'); return false;">About</a></li>
+                <li><a href="#contact-section" class="block text-white text-3xl font-medium hover:text-purple-400 transition duration-300 py-2 px-4 rounded-md" onclick="closeMobileMenuThenScroll('contact-section'); return false;">Contact</a></li>
             </ul>
         </div>
     </header>
 
     <main>
-        <section id="hero-section" class="relative h-screen flex items-center justify-center text-center bg-cover bg-center overflow-hidden active" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Dynamic+Abstract+Video+Background');">
+        <!-- All sections now have section-content class and are initially hidden by CSS -->
+        <section id="hero-section" class="relative h-screen flex items-center justify-center text-center bg-cover bg-center overflow-hidden section-content" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Dynamic+Abstract+Video+Background');">
             <div class="absolute inset-0 bg-gradient-to-br from-purple-900 via-black to-gray-900 opacity-80"></div>
             <div class="relative z-10 p-6 md:p-10 max-w-6xl mx-auto bg-gray-800 bg-opacity-10 rounded-3xl shadow-2xl glass-effect">
                 <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-4 md:mb-6 leading-tight fade-in-up">
@@ -474,15 +519,6 @@
         <section id="portfolio-section" class="section-content bg-gray-900">
             <div class="container mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16"> <!-- Adjusted horizontal padding -->
                 <h2 class="text-4xl sm:text-5xl font-bold text-center text-white mb-12 md:mb-16">My Latest <span class="text-purple-400">Creations</span></h2>
-
-                <h3 class="text-2xl sm:text-3xl font-semibold text-center text-gray-400 mb-6 md:mb-8 mt-8 md:mt-12">Trusted By</h3>
-                <!-- Static Horizontal List (no animation, no duplication) -->
-                <div class="clients-horizontal-list">
-                    <img src="images/empa.png" alt="EMPA Company Logo">
-                    <img src="images/jasper.jpg" alt="Jasper Lounge Logo">
-                    <img src="images/lakipay.png" alt="LakiPay Company Logo">
-                </div>
-                <!-- End Trusted By -->
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mt-12 md:mt-16">
                     <div class="project-card">
@@ -544,7 +580,7 @@
                             My journey into visual storytelling began long before formal training. Prior to dedicating a year to intensive videography and photography studies, I gained invaluable experience in diverse professional environments, cultivating a strong work ethic and a versatile skill set. Upon completing my specialized education, I immediately sought hands-on industry experience. My initial four-month mission with a dynamic company was pivotal, allowing me to deeply understand professional workflows, adapt to fast-paced production cycles, and seamlessly integrate into collaborative team environments.
                         </p>
                         <p class="text-lg md:text-xl text-gray-300 leading-relaxed mt-4">
-                            I trained and studied at **TOM Training Center** for 1 year, a period that significantly enhanced my skills and refined my creative approach. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
+                            I trained and studied at TOM Training Center for 1 year, a period that significantly enhanced my skills and refined my creative approach. This foundational period solidified my commitment to crafting impactful visual narratives and prepared me for the exciting challenges of the creative industry.
                         </p>
                     </div>
                 </div>
@@ -583,7 +619,7 @@
 
     <footer class="bg-gray-900 text-gray-500 py-8 px-6 md:px-12 text-center">
         <div class="container mx-auto">
-            <p class="text-base md:text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with passion.</p>
+            <p class="text-base md:text-lg">© 2025 Daniel Zekaryas. All rights reserved. Crafted with Passion.</p>
         </div>
     </footer>
 
@@ -610,7 +646,6 @@
 
         function openMobileMenu() {
             mobileMenu.classList.add('active');
-            // Ensure it covers the full screen and is interactive
             mobileMenu.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
             mobileMenu.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
             document.body.style.overflow = 'hidden'; // Prevent background scroll when menu is open
@@ -625,31 +660,73 @@
 
         mobileMenuButton.addEventListener('click', toggleMobileMenu);
 
-        // Function to show a specific section and hide others
+        // Function to show a specific section and hide others, with mobile menu closing delay
+        function closeMobileMenuThenScroll(sectionId) {
+            // First, start closing the mobile menu immediately
+            closeMobileMenu();
+
+            // Then, after the menu transition (300ms), call the main showSection logic
+            setTimeout(() => {
+                showSection(sectionId);
+            }, 350); // A small delay (e.g., 350ms) slightly longer than the menu transition
+        }
+
+        // --- GLOBAL FUNCTIONS DEFINED HERE ---
+        // showSection function now handles hiding and showing sections for a "replacement" effect
         function showSection(sectionId) {
-            const sections = document.querySelectorAll('main section');
+            const sections = document.querySelectorAll('main .section-content'); // Target all sections with this class
+            const headerHeight = document.querySelector('header').offsetHeight;
+            const targetSection = document.getElementById(sectionId); // Get the specific target section
+
+            if (!targetSection) {
+                console.error(`Section with ID '${sectionId}' not found.`);
+                return;
+            }
+
+            // 1. Hide all sections
             sections.forEach(section => {
-                section.classList.remove('active');
+                section.classList.remove('active'); // Remove active for opacity transition
             });
 
-            const activeSection = document.getElementById(sectionId);
-            if (activeSection) {
-                activeSection.classList.add('active');
-                // Scroll to the top of the active section (adjust for fixed header)
-                setTimeout(() => {
-                    const headerHeight = document.querySelector('header').offsetHeight;
-                    window.scrollTo({
-                        top: activeSection.offsetTop - headerHeight,
-                        behavior: 'smooth'
-                    });
-                }, 50); // Small delay
-            }
-            closeMobileMenu(); // Close mobile menu after navigating
+            // 2. Make the target section active (which applies display: block and opacity: 1 via CSS)
+            targetSection.classList.add('active');
+
+            // 3. Scroll to the top of the active section
+            // Use a small timeout to ensure the display: block has rendered before scrolling
+            setTimeout(() => {
+                window.scrollTo({
+                    top: targetSection.offsetTop - headerHeight,
+                    behavior: 'smooth'
+                });
+            }, 50); // Small delay (e.g., 50ms)
         }
+
+        function openImageModal(imageSrc) {
+            const imageModalOverlay = document.getElementById('image-modal-overlay');
+            const modalImageViewer = document.getElementById('modal-image-viewer');
+            modalImageViewer.src = imageSrc; // Set the image source
+            imageModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling background
+        }
+
+        function closeImageModal() {
+            const imageModalOverlay = document.getElementById('image-modal-overlay');
+            const modalImageViewer = document.getElementById('modal-image-viewer');
+            imageModalOverlay.classList.remove('active');
+            modalImageViewer.src = ''; // Clear the image source
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
 
         // Intersection Observer for the yellow markers & other elements if needed
         document.addEventListener('DOMContentLoaded', () => {
-            showSection('hero-section'); // Ensure hero section is active on load
+            // Manually trigger initial display for hero section on page load
+            const initialHeroSection = document.getElementById('hero-section');
+            if (initialHeroSection) {
+                // Ensure hero section is active and visible on initial load
+                initialHeroSection.classList.add('active'); // This will apply display: block and opacity: 1
+            }
+
 
             // Observe marker lines
             const markerLines = document.querySelectorAll('.marker-line');
@@ -697,27 +774,12 @@
                 });
             }
 
-            // Image Modal Logic
+            // Image Modal Logic - Event Listeners
             const imageModalOverlay = document.getElementById('image-modal-overlay');
             const imageModalCloseBtn = document.getElementById('image-modal-close');
-            const modalImageViewer = document.getElementById('modal-image-viewer');
             const certificatePreviewButton = document.getElementById('certificate-preview-button');
             const viewCertificateBtn = document.getElementById('view-certificate-btn');
             const certificateImagePath = 'images/certificate1.jpg'; // Path to your certificate image
-
-            // Function to open the image modal
-            function openImageModal(imageSrc) {
-                modalImageViewer.src = imageSrc; // Set the image source
-                imageModalOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling background
-            }
-
-            // Function to close the image modal
-            function closeImageModal() {
-                imageModalOverlay.classList.remove('active');
-                modalImageViewer.src = ''; // Clear the image source
-                document.body.style.overflow = ''; // Restore scrolling
-            }
 
             // Event listeners for opening the modal
             if (certificatePreviewButton) {
@@ -742,6 +804,20 @@
                         closeImageModal();
                     }
                 });
+            }
+        });
+
+        // Loading Screen Logic - This will run AFTER all resources (images, iframes, etc.) are loaded
+        window.addEventListener('load', () => {
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (loadingOverlay) {
+                // Hide the loading overlay after everything is loaded
+                loadingOverlay.classList.add('hidden');
+                // Ensure the initial hero section is visible after loading
+                const initialHeroSection = document.getElementById('hero-section');
+                if (initialHeroSection) {
+                    initialHeroSection.classList.add('active'); // This will apply display: block and opacity: 1
+                }
             }
         });
     </script>
