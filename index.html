@@ -653,15 +653,20 @@
 
         function openMobileMenu() {
             mobileMenu.classList.add('active');
-            mobileMenu.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
-            mobileMenu.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            mobileMenu.style.left = '0'; // Slide in
+            mobileMenu.style.opacity = '1'; // Fade in
+            mobileMenu.style.pointerEvents = 'auto'; // Enable interactions
             document.body.style.overflow = 'hidden'; // Prevent background scroll when menu is open
         }
 
         function closeMobileMenu() {
             mobileMenu.classList.remove('active');
-            mobileMenu.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
-            mobileMenu.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
+            mobileMenu.style.left = '-100vw'; // Slide out
+            mobileMenu.style.opacity = '0'; // Fade out
+            // Disable pointer events after the transition completes
+            setTimeout(() => {
+                mobileMenu.style.pointerEvents = 'none';
+            }, 300); // Match transition duration
             document.body.style.overflow = ''; // Restore background scroll
         }
 
